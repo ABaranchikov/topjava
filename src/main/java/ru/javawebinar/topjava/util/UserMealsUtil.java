@@ -25,12 +25,11 @@ public class UserMealsUtil {
         List<UserMealWithExceed> result = getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
 
         for (UserMealWithExceed item : result) {
-            System.out.println(item.toString());
+            System.out.println(item);
         }
     }
 
     public static List<UserMealWithExceed> getFilteredWithExceededByLoop(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        List<UserMealWithExceed> result = new ArrayList<>();
         Map<LocalDate, Integer> caloriesMap = new HashMap<>();
         for (UserMeal userMeal : mealList) {
             LocalDate date = userMeal.getDateTime().toLocalDate();
@@ -38,13 +37,12 @@ public class UserMealsUtil {
             count += userMeal.getCalories();
             caloriesMap.put(date, count);
         }
-
+        List<UserMealWithExceed> result = new ArrayList<>();
         for (UserMeal userMeal : mealList) {
-            LocalDate date = userMeal.getDateTime().toLocalDate();
-            int calories = caloriesMap.get(date);
-
             LocalTime time = userMeal.getDateTime().toLocalTime();
             if (isBetween(time, startTime, endTime)) {
+                LocalDate date = userMeal.getDateTime().toLocalDate();
+                int calories = caloriesMap.get(date);
                 result.add(createUserMealWithExceed(userMeal, calories > caloriesPerDay));
             }
         }
@@ -52,7 +50,7 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        Map<LocalDate, Integer> map = mealList.stream().collect(Collectors.groupingBy(d -> d.getDateTime().toLocalDate(), Collectors.summingInt(c -> c.getCalories())));
+        Map<LocalDate, Integer> map = mealList.stream().collect(Collectors.groupingBy(d -> d.getDateTime().toLocalDate(), Collectors.summingInt(UserMeal::getCalories)));
 
         return mealList.stream()
                 .filter(d -> isBetween(d.getDateTime().toLocalTime(), startTime, endTime))

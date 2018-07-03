@@ -14,29 +14,24 @@ li {
 }
 
 table {
-    border: 1px;
-    border-collapse: separate;
+    border: 1px solid black;
+    border-collapse: collapse;
     width: 80%;
-
-
+    background: #f3f3f3;
 }
 td, th {
-
+    border: 1px solid black;
     padding: 3px;
 }
 td {
     text-align: center;
-}
-th {
-    background: #C0C0C0;
-    color: black;
+    solid-color: black;
 }
 tr.exceeded {
-    //background: #DC143C;
-    background: red;
+    color: red;
 }
 tr.notExceeded {
-    background: #7CFC00;
+    color: green;
 }
 
 .la {

@@ -17,7 +17,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(MealServlet.class);
-    private static final List<MealWithExceed> storage = MealsUtil.getFilteredWithExceededByCycle(MealsInit.STORAGE, LocalTime.MIN, LocalTime.MAX, 2500);
+    private final List<MealWithExceed> storage = MealsUtil.getFilteredWithExceededByCycle(MealsInit.STORAGE, LocalTime.MIN, LocalTime.MAX, 2500);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -27,6 +27,6 @@ public class MealServlet extends HttpServlet {
         log.debug("redirect to meals");
         request.setCharacterEncoding("UTF-8");
         request.setAttribute("mealList", storage);
-        request.getRequestDispatcher("meals.jsp").forward(request, response);
+        request.getRequestDispatcher("/meals.jsp").forward(request, response);
     }
 }

@@ -7,15 +7,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @NamedQueries({
-        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM meals m WHERE m.id=:id AND m.user.id=:userId"),
-        @NamedQuery(name = Meal.GET, query = "SELECT m FROM meals m " +
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:userId"),
+        @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m " +
                 "WHERE m.id =:id AND m.user.id =:userId"),
-        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM meals m " +
+        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM Meal m " +
                 "WHERE m.user.id=:userId " +
-                "ORDER BY m.date_time DESC"),
-        @NamedQuery(name = Meal.GET_BETWEEN, query = "SELECT m FROM meals m " +
-                "WHERE m.user.id=:userId  AND m.date_time BETWEEN  :startDate AND :endDate " +
-                "ORDER BY m.date_time DESC")
+                "ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.GET_BETWEEN, query = "SELECT m FROM Meal m " +
+                "WHERE m.user.id=:userId  AND m.dateTime BETWEEN  :startDate AND :endDate " +
+                "ORDER BY m.dateTime DESC")
 })
 
 @Entity
@@ -29,15 +29,12 @@ public class Meal extends AbstractBaseEntity {
 
     @Column(name = "date_time", nullable = false)
     @Convert(converter = LocalDatePersistenceConverter.class)
-    @NotBlank
     private LocalDateTime dateTime;
 
     @Column(name = "description", nullable = false)
-    @NotBlank
     private String description;
 
     @Column(name = "calories", nullable = false)
-    @NotBlank
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
